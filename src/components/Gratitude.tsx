@@ -64,7 +64,7 @@ export function Gratitude({ onNext }: GratitudeProps) {
 
       <motion.div variants={itemVariants} className="mt-12 flex flex-col items-center gap-3">
         <p className="text-[10px] sm:text-xs text-gold-glow/60 font-sans tracking-widest uppercase animate-pulse">
-           Deslize ou clique para continuar
+           Toque para continuar
         </p>
         <motion.button
           onClick={onNext}

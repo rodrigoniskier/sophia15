@@ -33,31 +33,38 @@ export function Decrees() {
   };
 
   const Confetti = () => (
-    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-      {Array.from({ length: 50 }).map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute top-0 w-2 h-4 sm:w-3 sm:h-6 bg-gold-light"
-          style={{
-            left: `${Math.random() * 100}%`,
-            backgroundColor: Math.random() > 0.5 ? '#FFDF73' : '#D4AF37',
-            clipPath: Math.random() > 0.5 ? 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' : 'none',
-            opacity: 0.8
-          }}
-          initial={{ y: -50, rotate: 0, opacity: 0 }}
-          animate={{ 
-            y: ['0vh', '100vh'], 
-            rotate: [0, Math.random() * 360 + 360],
-            opacity: [1, 1, 0]
-          }}
-          transition={{ 
-            duration: Math.random() * 3 + 2, 
-            ease: "linear",
-            delay: Math.random() * 1.5,
-            repeat: Infinity
-          }}
-        />
-      ))}
+    <div className="fixed inset-0 z-50 pointer-events-none overflow-hidden h-screen w-screen">
+      {Array.from({ length: 100 }).map((_, i) => {
+        // Randomize initial positions so they don't all start at the top at the same time
+        const startY = Math.random() * -100; // Start somewhere above the screen
+        const endY = 110; // End below the screen
+        
+        return (
+          <motion.div
+            key={i}
+            className="absolute top-0 w-2 h-4 sm:w-3 sm:h-6 bg-gold-light"
+            style={{
+              left: `${Math.random() * 100}%`,
+              backgroundColor: Math.random() > 0.5 ? '#FFDF73' : '#D4AF37',
+              clipPath: Math.random() > 0.5 ? 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' : 'none',
+              transformOrigin: 'center'
+            }}
+            initial={{ y: `${startY}vh`, rotate: 0, opacity: 0 }}
+            animate={{ 
+              y: [`${startY}vh`, `${endY}vh`], 
+              rotate: [0, Math.random() * 720 + 360],
+              x: [0, Math.random() * 100 - 50],
+              opacity: [0, 1, 1, 0]
+            }}
+            transition={{ 
+              duration: Math.random() * 3 + 4, 
+              ease: "linear",
+              delay: Math.random() * 3,
+              repeat: Infinity
+            }}
+          />
+        );
+      })}
     </div>
   );
 
@@ -68,10 +75,10 @@ export function Decrees() {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 1, ease: "easeOut" }}
     >
+      {/* Confetti Explosion for accepted RSVP */}
+      {rsvpStatus === 'accepted' && <Confetti />}
+
       <div className="w-full max-w-lg bg-blood-dark/80 backdrop-blur-xl border-2 border-gold-dark/60 shadow-[0_0_50px_rgba(212,175,55,0.2),inset_0_0_20px_rgba(212,175,55,0.1)] rounded-t-[100px] rounded-b-3xl p-6 sm:p-12 text-center relative flex flex-col pb-8 z-10 overflow-hidden">
-        
-        {/* Confetti Explosion for accepted RSVP */}
-        {rsvpStatus === 'accepted' && <Confetti />}
 
         {/* Ornate Background Pattern (CSS pseudo-element vibe via absolute div) */}
         <div className="absolute inset-0 opacity-15 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#D4AF37 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>

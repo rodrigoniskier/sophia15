@@ -15,10 +15,6 @@ export default function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // For touch swipe handling
-  const touchStartY = useRef(0);
-  const touchEndY = useRef(0);
-
   useEffect(() => {
     audioRef.current = new Audio(AUDIO_URL);
     audioRef.current.loop = true;
@@ -53,36 +49,9 @@ export default function App() {
     }
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartY.current = e.targetTouches[0].clientY;
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    touchEndY.current = e.changedTouches[0].clientY;
-    handleSwipe();
-  };
-
-  const handleSwipe = () => {
-    const swipeDistance = touchStartY.current - touchEndY.current;
-    const minSwipeDistance = 50;
-
-    // Swipe Up
-    if (swipeDistance > minSwipeDistance) {
-      if (screen === ScreenState.PORTICO) handleEnterRealm();
-      else if (screen === ScreenState.GRATITUDE) setScreen(ScreenState.DECREES);
-    }
-    // Swipe Down
-    else if (swipeDistance < -minSwipeDistance) {
-      if (screen === ScreenState.DECREES) setScreen(ScreenState.GRATITUDE);
-      else if (screen === ScreenState.GRATITUDE) setScreen(ScreenState.PORTICO);
-    }
-  };
-
   return (
     <div 
       className="relative min-h-[100dvh] font-sans bg-blood-dark text-gold-light overflow-hidden sm:min-h-screen"
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
     >
       <ParticlesBackground />
 
