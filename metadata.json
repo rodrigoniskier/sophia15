@@ -1,0 +1,8 @@
+{
+  "name": "Convite Real Sophia",
+  "description": "Web app de convite de 15 anos para Sophia Sales Gomes, com um tema medieval luxuoso, animações e música.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
