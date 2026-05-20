@@ -34,14 +34,14 @@ export function Decrees() {
 
   const Confetti = () => (
     <div className="fixed inset-0 z-50 pointer-events-none overflow-hidden h-screen w-screen">
-      {Array.from({ length: 100 }).map((_, i) => {
-        // Randomize initial positions so they don't all start at the top at the same time
-        const startY = Math.random() * -100; // Start somewhere above the screen
-        const endY = 110; // End below the screen
+      {/* Continuous rain */}
+      {Array.from({ length: 80 }).map((_, i) => {
+        const startY = Math.random() * -100; 
+        const endY = 110; 
         
         return (
           <motion.div
-            key={i}
+            key={`rain-${i}`}
             className="absolute top-0 w-2 h-4 sm:w-3 sm:h-6 bg-gold-light"
             style={{
               left: `${Math.random() * 100}%`,
@@ -65,6 +65,65 @@ export function Decrees() {
           />
         );
       })}
+
+      {/* Intense burst from center, simulating explosion around RSVP buttons */}
+      {Array.from({ length: 60 }).map((_, i) => {
+        const angle = Math.random() * Math.PI; // upper half circle
+        const velocity = Math.random() * 60 + 40; // max distance in vh/vw
+        
+        return (
+          <motion.div
+            key={`burst-${i}`}
+            className="absolute bottom-[30%] left-1/2 w-2 h-4 sm:w-3 sm:h-6 bg-gold-light"
+            style={{
+              backgroundColor: Math.random() > 0.5 ? '#FFE58F' : '#D4AF37',
+              clipPath: Math.random() > 0.5 ? 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' : 'none',
+              transformOrigin: 'center'
+            }}
+            initial={{ x: "-50%", y: 0, scale: 0, opacity: 1 }}
+            animate={{ 
+              y: [0, -Math.abs(Math.sin(angle) * velocity) + "vh", 80 + "vh"], 
+              x: ["-50%", `calc(-50% + ${Math.cos(angle) * velocity}vw)`, `calc(-50% + ${Math.cos(angle) * velocity * 1.5}vw)`],
+              rotate: [0, Math.random() * 720 + 360],
+              opacity: [1, 1, 0]
+            }}
+            transition={{ 
+              duration: Math.random() * 2 + 2, 
+              ease: "easeOut",
+              times: [0, 0.4, 1]
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+
+  const GoldDust = () => (
+    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-t-[100px] rounded-b-3xl">
+      {Array.from({ length: 40 }).map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute bg-gold-glow rounded-full"
+          style={{
+            width: Math.random() * 2 + 1,
+            height: Math.random() * 2 + 1,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            boxShadow: '0 0 8px rgba(255, 234, 153, 0.9)'
+          }}
+          animate={{
+            y: [0, -Math.random() * 40 - 10, 0],
+            x: [0, Math.random() * 20 - 10, 0],
+            opacity: [Math.random() * 0.2 + 0.1, Math.random() * 0.8 + 0.2, Math.random() * 0.2 + 0.1],
+            scale: [1, Math.random() * 1 + 1, 1]
+          }}
+          transition={{
+            duration: Math.random() * 4 + 3,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      ))}
     </div>
   );
 
@@ -78,13 +137,22 @@ export function Decrees() {
       {/* Confetti Explosion for accepted RSVP */}
       {rsvpStatus === 'accepted' && <Confetti />}
 
-      <div className="w-full max-w-lg bg-blood-dark/80 backdrop-blur-xl border-2 border-gold-dark/60 shadow-[0_0_50px_rgba(212,175,55,0.2),inset_0_0_20px_rgba(212,175,55,0.1)] rounded-t-[100px] rounded-b-3xl p-6 sm:p-12 text-center relative flex flex-col pb-8 z-10 overflow-hidden">
+      <div className="w-full max-w-lg bg-blood-dark/90 backdrop-blur-xl border border-gold-dark/60 rounded-t-[100px] rounded-b-3xl p-6 sm:p-12 text-center relative flex flex-col pb-8 z-10 overflow-hidden animate-pulse-glow-card">
 
         {/* Ornate Background Pattern (CSS pseudo-element vibe via absolute div) */}
         <div className="absolute inset-0 opacity-15 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#D4AF37 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
 
+        {/* Floating Gold Dust */}
+        <GoldDust />
+
         {/* Fancy Inner Border Overlay simulating a mask outline */}
         <div className="absolute inset-2 border-2 border-dashed border-gold-dark/40 rounded-t-[90px] rounded-b-2xl pointer-events-none mix-blend-overlay"></div>
+
+        {/* Ornate Corner Decals */}
+        <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-gold-glow/40 rounded-tl-[80px] pointer-events-none opacity-80"></div>
+        <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-gold-glow/40 rounded-tr-[80px] pointer-events-none opacity-80"></div>
+        <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-gold-glow/40 rounded-bl-[15px] pointer-events-none opacity-80"></div>
+        <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-gold-glow/40 rounded-br-[15px] pointer-events-none opacity-80"></div>
 
         <motion.div 
           initial={{ y: -20 }}

@@ -41,10 +41,24 @@
   50% { box-shadow: 0 0 25px rgba(255, 223, 115, 0.6); }
 }
 
+@keyframes pulse-glow-card {
+  0%, 100% { 
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.2), inset 0 0 20px rgba(212, 175, 55, 0.1); 
+    border-color: rgba(212, 175, 55, 0.5);
+  }
+  50% { 
+    box-shadow: 0 0 60px rgba(255, 234, 153, 0.4), inset 0 0 40px rgba(255, 234, 153, 0.2); 
+    border-color: rgba(255, 234, 153, 0.8);
+  }
+}
+
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
 .animate-pulse-glow {
   animation: pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+.animate-pulse-glow-card {
+  animation: pulse-glow-card 4s ease-in-out infinite;
 }
 
